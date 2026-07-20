@@ -9,3 +9,13 @@ function startRide() {
 
     alert("Ride Booked!\n\nPickup: " + pickup + "\nDrop: " + drop);
 }
+function login() {
+    let mobile = document.getElementById("mobile").value;
+
+    if (mobile.length !== 10) {
+        alert("Please enter a valid 10-digit mobile number");
+        return;
+    }
+
+    alert("OTP Sent to " + mobile);
+}
