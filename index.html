@@ -40,5 +40,55 @@
     <footer>
   <p>© 2026 Ahad E-Ride. All Rights Reserved.</p>
 </footer
+   <div id="recaptcha-container"></div>
+
+<input type="text" id="otp" placeholder="Enter OTP">
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "ahad-e-ride-86602.firebaseapp.com",
+  projectId: "ahad-e-ride-86602",
+  storageBucket: "ahad-e-ride-86602.firebasestorage.app",
+  messagingSenderId: "393011050170",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+  size: "normal"
+});
+await window.recaptchaVerifier.render();
+
+window.login = async function () {
+  const phone = "+91" + document.getElementById("mobile").value;
+
+  window.confirmationResult = await signInWithPhoneNumber(
+    auth,
+    phone,
+    window.recaptchaVerifier
+  );
+
+  alert("OTP Sent");
+};
+
+window.verifyOTP = async function () {
+  const otp = document.getElementById("otp").value;
+
+  await window.confirmationResult.confirm(otp);
+
+  alert("Login Successful");
+};
+</script> 
 </body>
 </html>
