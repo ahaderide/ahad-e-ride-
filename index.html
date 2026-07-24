@@ -1,94 +1,74 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahad E-Ride</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<header class="navbar">
-<h2>🚖 Ahad E-Ride</h2>
-    
-</header>
-<div class="container">
-<h1>🚖 Ahad E-Ride</h1>
-    <p>Book your ride anytime, anywhere</p>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahad E-Ride</title>
 
-    <input type="text" placeholder="Pickup Location">
-    <input type="text" placeholder="Drop Location">
-<select id="vehicle">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+  <h2>🚖 Ahad E-Ride</h2>
+</header>
+
+<div class="container">
+
+  <h1>🚖 Ahad E-Ride</h1>
+
+  <p>Book your ride anytime, anywhere</p>
+
+  <input type="text" id="pickup" placeholder="Pickup Location">
+
+  <input type="text" id="drop" placeholder="Drop Location">
+
+  <select id="vehicle">
     <option>Select Vehicle</option>
     <option>🏍️ Bike</option>
     <option>🛺 Auto</option>
     <option>🚗 Mini</option>
     <option>🚙 Sedan</option>
     <option>🚘 SUV</option>
-</select>
+  </select>
 
-    <button onclick="startRide()">Book Ride</button>
+  <button onclick="startRide()">Book Ride</button>
+
 </div>
 
-<script src="script.js"></script>
 <div class="login-box">
-<h2>Login</h2>
 
-<input type="text" id="mobile" placeholder="Enter Mobile Number">
+  <h2>Login</h2>
 
-<button onclick="login()">Login</button>
-</div> 
-    <footer>
+  <input
+    type="text"
+    id="mobile"
+    placeholder="Enter 10 Digit Mobile Number"
+    maxlength="10"
+  >
+
+  <button onclick="login()">Send OTP</button>
+
+  <div id="recaptcha-container"></div>
+
+  <br><br>
+
+  <input
+    type="text"
+    id="otp"
+    placeholder="Enter OTP"
+  >
+
+  <button onclick="verifyOTP()">Verify OTP</button>
+
+</div>
+
+<footer>
   <p>© 2026 Ahad E-Ride. All Rights Reserved.</p>
-</footer
-   <div id="recaptcha-container"></div>
+</footer>
 
-<input type="text" id="otp" placeholder="Enter OTP">
-<button onclick="verifyOTP()">Verify OTP</button>
+<script type="module" src="script.js"></script>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "ahad-e-ride-86602.firebaseapp.com",
-  projectId: "ahad-e-ride-86602",
-  storageBucket: "ahad-e-ride-86602.firebasestorage.app",
-  messagingSenderId: "393011050170",
-  appId: "YOUR_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-  size: "normal"
-});
-await window.recaptchaVerifier.render();
-
-window.login = async function () {
-  const phone = "+91" + document.getElementById("mobile").value;
-
-  window.confirmationResult = await signInWithPhoneNumber(
-    auth,
-    phone,
-    window.recaptchaVerifier
-  );
-
-  alert("OTP Sent");
-};
-
-window.verifyOTP = async function () {
-  const otp = document.getElementById("otp").value;
-
-  await window.confirmationResult.confirm(otp);
-
-  alert("Login Successful");
-};
-</script> 
 </body>
 </html>
